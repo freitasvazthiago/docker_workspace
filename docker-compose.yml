@@ -1,0 +1,56 @@
+# ./docker-compose.yml
+version: '3.7'
+#maintainer: "THIAGO FIGUEIREDO <thiago.figueiredo@softvision.com.br>"
+
+### Networks Setup #############################################
+
+networks:
+  frontend:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.1.0/24
+  backend:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.2.0/24
+
+### Services Setup #############################################
+
+services:
+
+  ### Workspace Utilities ######################################
+
+  workspace:
+    image: freitasvazthiago/workspace:1.0
+    volumes:
+      - ${APPLICATION}:/var/www
+      - ${WORKSPACE_XDEBUG}:/usr/local/etc/php/conf.d/xdebug.ini
+      - ${WORKSPACE_CRONTAB}:/etc/cron.d
+    ports:
+      - "${WORKSPACE_SSH_PORT}:22"
+    tty: true
+    networks:
+      - frontend
+      - backend
+
+ ### NGINX Server #############################################
+
+  nginx:
+    image: freitasvazthiago/nginx:1.0
+    volumes:
+      - ${APPLICATION}:/var/www
+      - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
+      - ${NGINX_SITES_PATH}:/etc/nginx/sites-available
+    ports:
+      - "${NGINX_HOST_HTTPS_PORT}:443"
+      - "3000:3000"
+      - "8000:8000"
+      - "8001:8001"
+    # depends_on:
+    networks:
+      - frontend
+      - backend
