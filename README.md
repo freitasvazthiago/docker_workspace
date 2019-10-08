@@ -1,4 +1,4 @@
-# Ambiente docker para aplicações PHP
+# Ambiente docker 
 
 [logo]:https://cdn.cloudlabs.com.br/wp-content/uploads/2017/07/whale-docker-logo.png
 [redis]:https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnIXOPDonZhJdI2xnT0fRIf3RiYZFzUSKK0yO-f7UVg7KujlX_
@@ -28,26 +28,22 @@
 
 1 - Clone o repositório na mesma estrutura dos projetos.
 
-`git clone`  
-`git clone`  
-`git clone`
+`git clone` 
 
 A estrutura deve estar assim:
 ```
-+ sisa-docker
-+ sisa-banco-sangue
++ ex-projeto
++ ex2-projeto
 ```
 2 - Na pasta ./ e copie renomeie os arquivos:  
 
 - docker-compose.yml.example -> docker-compose.yml
     * incluir em `nginx` -> `ports` as seguintes linhas:
-      - "3000:3000"
       - "8000:8000"
 
 3 - Na pasta ./nginx/sites e copie renomeie os arquivos:  
 
-- laravel.conf.example -> api.conf  (altere o parametro `listen` para `3000`)
-- laravel.conf.example -> plus.conf (altere o parametro `listen` para `8000`)
+- default.conf.example (altere o parametro `listen` para `8000`)
 
 4 - Adicione os seguintes dominios no arquivo de hosts.
 
@@ -70,11 +66,7 @@ A estrutura deve estar assim:
 
 2.1 - Baixar as imagens base (Somente para usuários windows)
 
-`docker push softv/nginx`
-
-`docker push softv/php-fpm`
-
-`docker push softv/workspace`
+`docker push usuario/repositorio`
 
 Obs.: Caso receba o erro "no route to host" verifique se não há nenhum container em execução com o comando `docker ps` e execute o comando `docker network prune` 
 
@@ -86,44 +78,15 @@ Obs.: Caso receba o erro "no route to host" verifique se não há nenhum contain
 
 Acesse as seguintes urls para confirmar:
 
-`nginx:3000` -> GATEWAY
-
-`nginx:8000` -> BANCO SANGUE
+`nginx:8000` -> PROJETO
 
 Checar se as portas foram expostas corretamento pelo Docker:
 
 - Linux
-
-`netstat -atunp | grep 3000`  
+ 
 `netstat -atunp | grep 8000`
 
 - Windows (CMD)
 
 `netstat -n | find "3000"`  
 `netstat -n | find "8000"`
-
-## Erros
-
-`ERR_EMPTY_RESPONDE`
-
-Causa:  
-
-Projeto não está sendo mapeado dentro dos containers.  
-
-Solução:  
-
-Em caso de troca de senha no Windows é necessário resetar as credenciais para que o projeto possa ser mapeado nos containers.
-
-Clique com o botão direito no icone do docker --> Settings --> Shared Drivers --> Reset Credencials
-
-Entre com a senha nova e reinicie os containers.
-
-`Bind for 0.0.0.0:80: unexpected error Permission denied`
-
-**Causa:**
-
-A porta 80 do host já está em uso por outra aplicação.
-
-**Solução:**
- 
-Abre o `.env` do sisa-docker e procure a seguinte configuração `NGINX_HTTP_PORT` e mude o valor para `88` ou outra porta que não estaja em uso. 
