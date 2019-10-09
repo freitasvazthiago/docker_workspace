@@ -55,9 +55,9 @@ services:
       - frontend
       - backend
       
-  ### TESTE #####################################################
+  ### REACT #####################################################
 
-  web:
+  react:
     build:
       context: ./react
       args:
