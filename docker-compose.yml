@@ -54,19 +54,3 @@ services:
     networks:
       - frontend
       - backend
-      
-  ### REACT #####################################################
-
-  react:
-    build:
-      context: ./react
-      args:
-        - HOST=${HOST}
-    volumes:
-      - ${APPLICATION}:/var/www
-      - ${WEB_SITE_AVAILABLE}:/etc/apache2/sites-available
-    ports:
-      - "${WEB_PORT}:80"
-    networks:
-      - frontend
-      - backend
