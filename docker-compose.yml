@@ -1,6 +1,6 @@
 # ./docker-compose.yml
 version: '3.7'
-#maintainer: "THIAGO FIGUEIREDO <thiago.figueiredo@softvision.com.br>"
+#maintainer: "THIAGO FREITAS <freitasvazthiago@gmail.com>"
 
 ### Networks Setup #############################################
 
@@ -10,13 +10,13 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: 172.18.1.0/24
+        - subnet: 172.18.3.0/24
   backend:
     driver: bridge
     ipam:
       driver: default
       config:
-        - subnet: 172.18.2.0/24
+        - subnet: 172.18.4.0/24
 
 ### Services Setup #############################################
 
@@ -25,7 +25,7 @@ services:
   ### Workspace Utilities ######################################
 
   workspace:
-    image: freitasvazthiago/workspace:1.0
+    image:  ${HOST}/workspace:1.0
     volumes:
       - ${APPLICATION}:/var/www
       - ${WORKSPACE_XDEBUG}:/usr/local/etc/php/conf.d/xdebug.ini
@@ -40,7 +40,7 @@ services:
  ### NGINX Server #############################################
 
   nginx:
-    image: freitasvazthiago/nginx:1.0
+    image: ${HOST}/nginx:1.0
     volumes:
       - ${APPLICATION}:/var/www
       - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
@@ -51,6 +51,22 @@ services:
       - "8000:8000"
       - "8001:8001"
     # depends_on:
+    networks:
+      - frontend
+      - backend
+      
+  ### TESTE #####################################################
+
+  web:
+    build:
+      context: ./react
+      args:
+        - HOST=${HOST}
+    volumes:
+      - ${APPLICATION}:/var/www
+      - ${WEB_SITE_AVAILABLE}:/etc/apache2/sites-available
+    ports:
+      - "${WEB_PORT}:80"
     networks:
       - frontend
       - backend
