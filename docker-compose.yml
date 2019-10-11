@@ -1,6 +1,6 @@
 # ./docker-compose.yml
 version: '3.7'
-#maintainer: "THIAGO FREITAS <freitasvazthiago@gmail.com>"
+# maintainer: "THIAGO FREITAS <freitasvazthiago@gmail.com>"
 
 ### Networks Setup #############################################
 
@@ -25,7 +25,7 @@ services:
   ### Workspace Utilities ######################################
 
   workspace:
-    image:  ${HOST}/workspace:1.0
+    image: ${HOST}/workspace:1.0
     volumes:
       - ${APPLICATION}:/var/www
       - ${WORKSPACE_XDEBUG}:/usr/local/etc/php/conf.d/xdebug.ini
@@ -40,7 +40,7 @@ services:
  ### NGINX Server #############################################
 
   nginx:
-    image: ${HOST}/nginx:1.0
+    image: nginx:latest
     volumes:
       - ${APPLICATION}:/var/www
       - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
@@ -48,6 +48,7 @@ services:
     ports:
       - "${NGINX_HOST_HTTPS_PORT}:443"
       - "3000:3000"
+      - "4000:4000"
       - "8000:8000"
       - "8001:8001"
     # depends_on:
