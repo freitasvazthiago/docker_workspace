@@ -22,21 +22,6 @@ networks:
 
 services:
 
-  ### Workspace Utilities ######################################
-
-  # workspace:
-  #   image:  ${HOST}/workspace:1.0
-  #   volumes:
-  #     - ${APPLICATION}:/var/www
-  #     - ${WORKSPACE_XDEBUG}:/usr/local/etc/php/conf.d/xdebug.ini
-  #     - ${WORKSPACE_CRONTAB}:/etc/cron.d
-  #   ports:
-  #     - "${WORKSPACE_SSH_PORT}:22"
-  #   tty: true
-  #   networks:
-  #     - frontend
-  #     - backend
-
  ### NGINX Server #############################################
 
   nginx:
