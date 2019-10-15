@@ -39,11 +39,23 @@ services:
 
   react:
     build:
-      context: ../react-list
+      context: ${APPLICATION}react-list
     ports:
-      - "80:3000"
+      - "3000:3000"
     volumes:
       - ${APPLICATION}/react-list:/usr/src/app
+    networks:
+      - frontend
+      - backend
+    restart: always
+
+  python:
+    build:
+      context: ${APPLICATION}flask-back
+    ports:
+      - "5000:5000"
+    volumes:
+      - ${APPLICATION}/flask-back:/usr/src/app
     networks:
       - frontend
       - backend
