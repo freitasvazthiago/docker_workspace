@@ -4,19 +4,19 @@ version: '3.7'
 
 ### Networks Setup #############################################
 
-networks:
-  frontend:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.18.3.0/24
-  backend:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.18.4.0/24
+# networks:
+#   frontend:
+#     driver: bridge
+#     ipam:
+#       driver: default
+#       config:
+#         - subnet: 172.18.3.0/24
+#   backend:
+#     driver: bridge
+#     ipam:
+#       driver: default
+#       config:
+#         - subnet: 172.18.4.0/24
 
 ### Services Setup #############################################
 
@@ -37,26 +37,37 @@ services:
   #     - frontend
   #     - backend
 
-  react:
-    build:
-      context: ${APPLICATION}react-list
-    ports:
-      - "3000:3000"
-    volumes:
-      - ${APPLICATION}/react-list:/usr/src/app
-    networks:
-      - frontend
-      - backend
-    restart: always
+  # react:
+  #   build:
+  #     context: ${APPLICATION}react-list
+  #   ports:
+  #     - "3000:3000"
+  #   volumes:
+  #     - ${APPLICATION}/react-list:/usr/src/app
+  #   networks:
+  #     - frontend
+  #     - backend
+  #   restart: always
 
-  python:
+  # python:
+  #   build:
+  #     context: ${APPLICATION}flask-back
+  #   ports:
+  #     - "5000:5000"
+  #   volumes:
+  #     - ${APPLICATION}/flask-back:/usr/src/app
+  #   networks:
+  #     - frontend
+  #     - backend
+  #   restart: always
+
+  jenkins:
     build:
-      context: ${APPLICATION}flask-back
+      context: ./jenkins
     ports:
-      - "5000:5000"
-    volumes:
-      - ${APPLICATION}/flask-back:/usr/src/app
-    networks:
-      - frontend
-      - backend
-    restart: always
+        - '8080:8080'
+        - '50000:50000'
+    # networks:
+    #     - frontend
+    #     - backend
+    # image: localhost:5000/jenkins  
